@@ -26,9 +26,14 @@ const propTypes = {
         container: View.propTypes.style,
         content: Text.propTypes.style,
     }),
+    /**
+     * Padding factor
+     */
+    factor: PropTypes.number,
 };
 const defaultProps = {
     style: {},
+    factor: 1,
 };
 const contextTypes = {
     uiTheme: PropTypes.object.isRequired,
@@ -36,15 +41,14 @@ const contextTypes = {
 
 function getStyles(props, context) {
     const { avatar } = context.uiTheme;
-    const { size } = props;
-
+    const { size, factor } = props;
     const local = {};
 
     if (size) {
         local.container = {
-            height: size,
-            width: size,
-            borderRadius: size / 2,
+            height: size * factor,
+            width: size * factor,
+            borderRadius: size * factor / 2,
         };
     }
 
@@ -81,10 +85,8 @@ class Avatar extends PureComponent {
 
 
         return (
-            <View style={{ flexGrow: 1 }}>
-                <View style={styles.container} >
-                    {content}
-                </View>
+            <View style={styles.container} >
+                {content}
             </View>
         );
     }
