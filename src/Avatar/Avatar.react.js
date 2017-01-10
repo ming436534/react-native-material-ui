@@ -3,6 +3,7 @@ import React, { PureComponent, PropTypes } from 'react';
 import { View, Image, Text, StyleSheet } from 'react-native';
 /* eslint-enable import/no-unresolved, import/extensions */
 import Icon from '../Icon';
+import RippleFeedback from '../RippleFeedback';
 
 const propTypes = {
     /**
@@ -28,9 +29,19 @@ const propTypes = {
         container: View.propTypes.style,
         content: Text.propTypes.style,
     }),
+    /**
+     * Padding factor
+     */
+    factor: PropTypes.number,
+    /**
+     * onPress
+     */
+    onPress: PropTypes.func,
 };
 const defaultProps = {
     style: {},
+    factor: 1,
+    onPress: () => {},
 };
 const contextTypes = {
     uiTheme: PropTypes.object.isRequired,
@@ -38,15 +49,14 @@ const contextTypes = {
 
 function getStyles(props, context) {
     const { avatar } = context.uiTheme;
-    const { size } = props;
-
+    const { size, factor } = props;
     const local = {};
 
     if (size) {
         local.container = {
-            height: size,
-            width: size,
-            borderRadius: size / 2,
+            height: size * factor,
+            width: size * factor,
+            borderRadius: size * factor / 2,
         };
     }
 
@@ -66,7 +76,7 @@ function getStyles(props, context) {
 
 class Avatar extends PureComponent {
     render() {
-        const { image, icon, text } = this.props;
+        const { image, icon, text, onPress } = this.props;
 
         let content = null;
         const { avatar, spacing } = this.context.uiTheme;
@@ -83,11 +93,11 @@ class Avatar extends PureComponent {
 
 
         return (
-            <View style={{ flexGrow: 1 }}>
+            <RippleFeedback onPress={onPress}>
                 <View style={styles.container} >
                     {content}
                 </View>
-            </View>
+            </RippleFeedback>
         );
     }
 }
