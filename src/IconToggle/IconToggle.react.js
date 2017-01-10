@@ -38,6 +38,14 @@ const propTypes = {
     * Call when icon was pressed
     */
     onPress: PropTypes.func,
+    /**
+    * Call when icon was pressed
+    */
+    onPressIn: PropTypes.func,
+    /**
+    * Call when icon was released
+    */
+    onPressOut: PropTypes.func,
 };
 const defaultProps = {
     disabled: false,
@@ -130,6 +138,7 @@ class IconToggle extends PureComponent {
                 toValue: this.maxOpacity,
                 duration: 100,
             }).start();
+            if (this.props.onPressIn) this.props.onPressIn();
         }
     };
     unHighlight = () => {
@@ -151,6 +160,9 @@ class IconToggle extends PureComponent {
 
             if (onPress) {
                 onPress();
+            }
+            if (onPressOut) {
+                onPressOut();
             }
         }
     };
