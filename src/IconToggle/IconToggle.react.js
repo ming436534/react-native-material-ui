@@ -153,7 +153,7 @@ class IconToggle extends PureComponent {
         }
     };
     handleResponderEnd = () => {
-        const { disabled, onPress } = this.props;
+        const { disabled, onPress, onPressOut } = this.props;
 
         if (!disabled) {
             this.unHighlight();
